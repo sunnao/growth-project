@@ -81,6 +81,7 @@
             set_icon()
             show_comment()
         });
+        
         function set_temp(){
             $.ajax({
                 type: "GET",
@@ -123,6 +124,7 @@
                 }
             })
         }
+        
         function show_comment(){
             $.ajax({
                 type: "GET",
@@ -133,6 +135,8 @@
                     for(let i = 0; i<rows.length; i++) {
                         let name = rows[i]['name']
                         let comment = rows[i]['comment']
+
+                        comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 
                         let temp_html = `<div class="card">
                                             <div class="card-body">
