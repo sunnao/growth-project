@@ -81,18 +81,18 @@
             set_icon()
             show_comment()
         });
-        
+
         function set_temp(){
             $.ajax({
                 type: "GET",
                 url: "http://spartacodingclub.shop/sparta_api/weather/seoul",
                 data: {},
                 success: function (response) {
-                    $('#temp').text(response['temp'])
+                    $('#temp').text(Math.round(response['temp']*10)/10)
                 }
             })
         }
-        
+
         function set_icon(){
             $.ajax({
                 type: "GET",
@@ -124,7 +124,7 @@
                 }
             })
         }
-        
+
         function show_comment(){
             $.ajax({
                 type: "GET",
@@ -161,7 +161,8 @@
         <div class="weather">
             <p>서울의 날씨는
                 <img id="icon" src="{{ url_for('static', filename='Spin-1s-200px.gif') }}/" width="45px">
-                <span id="temp">__.__</span>°C</p>
+                <span id="temp">__._</span>°C
+            </p>
         </div>
 
     </div>
