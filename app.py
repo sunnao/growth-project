@@ -18,13 +18,12 @@ def homework_post():
         'name':name_receive,
         'comment':comment_receive
     }
-    db.homeworkfan.insert_one(doc)
-
-    return jsonify({'msg':'응원 감사합니다:)'})
+    db.sweetcomment.insert_one(doc)
+    return jsonify({'msg':'따듯한 한마디 감사합니다:)'})
 
 @app.route("/homework", methods=["GET"])
 def homework_get():
-    comment_list = list(db.homeworkfan.find({},{'_id':False}))
+    comment_list = list(db.sweetcomment.find({},{'_id':False}))
     return jsonify({'letters':comment_list})
 
 if __name__ == '__main__':
