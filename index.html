@@ -68,11 +68,38 @@
             width: 95%;
             max-width: 500px;
             margin: auto;
+
         }
 
         .mycards > .card {
             margin-top: 10px;
             margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .edit {
+            padding-top: auto;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: end;
+
+        }
+
+        .edit > div > button {
+            background-color: transparent;
+            border-color: transparent;
+
+        }
+
+        .modify {
+            font-size: 17px;
+        }
+        .delete {
+            font-size: 20px;
         }
     </style>
     <script>
@@ -116,7 +143,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/homework',
+                url: '/sweetcomment',
                 data: {name_give: name, comment_give: comment},
                 success: function (response) {
                     alert(response['msg'])
@@ -128,13 +155,14 @@
         function show_comment(){
             $.ajax({
                 type: "GET",
-                url: "/homework",
+                url: "/sweetcomment",
                 data: {},
                 success: function (response) {
                     let rows = response['letters']
                     for(let i = 0; i<rows.length; i++) {
                         let name = rows[i]['name']
                         let comment = rows[i]['comment']
+                        let num = rows[i]['num']
 
                         comment = comment.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 
@@ -144,6 +172,10 @@
                                                     <p>${comment}</p>
                                                     <footer class="blockquote-footer">${name}</footer>
                                                 </blockquote>
+                                                <div class="edit">
+                                                    <div class="modify"><button onclick="modify_comment()" type="button" title="수정하기">🖋</button></div>
+                                                    <div class="delete"><button onclick="delete_comment(${num},'${comment}','${name}')" type="button" title="삭제하기">🗑</button></div>
+                                                </div>
                                             </div>
                                         </div>`
                         $('#comment-list').prepend(temp_html)
@@ -151,6 +183,26 @@
                 }
             });
         }
+
+        function modify_comment(){
+            alert("수정 기능은 준비중입니다.\n조금만 기다려주세요.😅")
+
+        }
+
+        function delete_comment(num,comment,name) {
+            if (confirm("정말 삭제할까요?") == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/sweetcomment/delete",
+                    data: {num_give: num, comment_give: comment,name_give: name},
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.reload()
+                    }
+                });
+            }
+        }
+
     </script>
 </head>
 <body>
