@@ -104,9 +104,9 @@
     </style>
     <script>
         $(document).ready(function(){
-            set_temp()
-            set_icon()
-            show_comment()
+            set_temp();
+            set_icon();
+            show_comment();
         });
 
         function set_temp(){
@@ -129,6 +129,12 @@
                     $('#icon').attr('src',response['icon'])
                 }
             })
+        }
+
+        function resize(obj) {
+            obj.style.height = '100px';
+            obj.style.height = (16 + obj.scrollHeight) + 'px';
+
         }
 
         function save_comment(){
@@ -173,7 +179,7 @@
                                                     <footer class="blockquote-footer">${name}</footer>
                                                 </blockquote>
                                                 <div class="edit">
-                                                    <div class="modify"><button onclick="modify_comment()" type="button" title="수정하기">🖋</button></div>
+                                                    <div class="modify"><button onclick="modify_comment(${num},'${comment}','${name}')" type="button" title="수정하기">🖋</button></div>
                                                     <div class="delete"><button onclick="delete_comment(${num},'${comment}','${name}')" type="button" title="삭제하기">🗑</button></div>
                                                 </div>
                                             </div>
@@ -184,9 +190,32 @@
             });
         }
 
-        function modify_comment(){
-            alert("수정 기능은 준비중입니다.\n조금만 기다려주세요.😅")
+        function modify_comment(num,comment,name){
+            $('#name').val(name);
+            comment = comment.replaceAll("<br/>","\n");
 
+            $('#comment').val(comment);
+            $('#comment').focus();
+            //수정할 게시글 내용을 수정란에 띄우기는 성공했으나 내용에 맞게 input창 크기 조절필요
+
+            // let name = $('#name').val()
+            // let comment = $('#comment').val()
+            //
+            // if(comment == "") {
+            //     alert("수정할 문구를 입력해 주세요.");
+            //     $('#comment').focus();
+            //     return false;
+            // }
+
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/sweetcomment/modify',
+            //     data: {name_give: name, comment_give: comment},
+            //     success: function (response) {
+            //         alert(response['msg'])
+            //         window.location.reload()
+            //     }
+            // })
         }
 
         function delete_comment(num,comment,name) {
@@ -224,8 +253,8 @@
             <label for="floatingInput">닉네임</label>
         </div>
         <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="comment"
-                style="height: 100px"></textarea>
+            <textarea class="form-control" placeholder="Leave a comment here" id="comment" onkeydown="resize(this)"
+                style="min-height: 100px; overflow: hidden"></textarea>
             <label for="floatingTextarea2">좋아하는 글귀를 남겨주세요</label>
         </div>
 
